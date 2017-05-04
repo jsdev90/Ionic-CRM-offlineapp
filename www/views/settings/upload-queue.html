@@ -1,0 +1,53 @@
+<ion-view title="Upload queue">
+  <ion-content class="has-subheader padding">
+    <table ng-show="queuedFiles.length">
+      <thead>
+        <tr>
+          <th>
+            Filename
+          </th>
+          <th>
+            Queued at
+          </th>
+          <th>
+            Status
+          </th>
+          <th>
+            Attempts
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="queuedFile in queuedFiles">
+          <td style="
+          max-width: 100px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;"
+          >
+            {{ queuedFile.filename }}
+          </td>
+          <td>
+            {{ queuedFile.created | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }}
+          </td>
+          <td>
+            {{ getStatus(queuedFile) }}
+            <button ng-show="queuedFile.error" class="button button-small button-positive" ng-click="showError(error)">Show error</button>
+          </td>
+          <td>
+            {{ queuedFile.attempts }}
+            <br />
+            <button
+            class="button button-small button-positive"
+            ng-disabled="!queuedFile.completed"
+            ng-click="retryFileSync(queuedFile.id)"
+            >Retry</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h2 ng-hide="queuedFiles.length">
+      No queued files
+    </h2>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,10 @@
+<ion-view>
+    <ion-nav-title>Purchase order #{{ purchaseOrder.purchase_order_number }} notes</ion-nav-title>
+    <ion-content class="padding">
+      <div class="list" style="padding-bottom: 40px">
+          <ng-include src="'views/messages/item.html'" class="item item-text-wrap"
+          ng-repeat="message in notes | orderBy: '-created_at'"
+          ></ng-include>
+      </div>
+    </ion-content>
+</ion-view>

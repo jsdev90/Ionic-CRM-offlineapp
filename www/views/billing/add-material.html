@@ -1,0 +1,116 @@
+<ion-view>
+    <ion-nav-title>
+        Add material for asset {{ asset.name }}
+    </ion-nav-title>
+    <ion-content>
+        <div class="padding">
+            <p>
+                I want to add material...
+            </p>
+        </div>
+        <div class="row no-padding">
+            <div class="col">
+                <a ng-click="addFromList()" class="button button-small button-block button-positive"><i class="ion-plus"></i> From list</a>
+            </div>
+            <div class="col">
+                <a ng-click="addFromInventory()" class="button  button-small button-block button-positive"><i class="ion-plus"></i> From inventory</a>
+            </div>
+        </div>
+
+        <form class="padding" novalidate name="forms.materialForm" style="padding-bottom: 100px;">
+            <div class="list">
+
+                <label class="item item-input item-select" ng-class="{ 'has-errors' : forms.materialForm.$submitted && forms.materialForm.supplier.$invalid}">
+                    <div class="input-label">
+                        Supplier<span class="required">*</span>
+                    </div>
+                    <select name="supplier" ng-model="material.supplierPersonId" required>
+                        <option ng-repeat="supplier in suppliers track by $index" value="{{ supplier.id }}">{{ supplier.first_name }}</option>
+                    </select>
+                </label>
+
+                <div ng-show="materialForm.$submitted && forms.materialForm.supplier.$invalid" ng-messages="materialForm.supplier.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <div class="item" ng-class="{ 'has-errors' : forms.materialForm.$submitted && forms.materialForm.quantity.$invalid}">
+                    <div class="row">
+                        <div class="col">
+                            <a class="button button-full button-positive" ng-click="decreaseQty()"><i class="ion-minus-round"></i></a>
+                        </div>
+                        <div class="col text-center">
+                            Quantity <input name="quantity" class="text-center" style="width: 100%" type="number" placeholder="" ng-model="material.qty" min="1" required>
+                        </div>
+                        <div class="col">
+                            <a class="button button-full button-positive" ng-click="increaseQty()"><i class="ion-plus-round"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="forms.materialForm.$submitted && forms.materialForm.quantity.$invalid" ng-messages="forms.materialForm.quantity.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.materialForm.$submitted && forms.materialForm.number.$invalid}">
+                    <span class="input-label">
+                        Part number<span class="required">*</span>
+                    </span>
+                    <input  ng-change="onChanged()" name="number" type="text" placeholder="" ng-model="material.itemCode" required>
+                </label>
+
+                <div ng-show="forms.materialForm.$submitted && forms.materialForm.number.$invalid" ng-messages="forms.materialForm.number.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input item-select"  ng-class="{ 'has-errors' : forms.materialForm.$submitted && forms.materialForm.leadTime.$invalid}">
+                    <div class="input-label">
+                        Lead time<span class="required">*</span>
+                    </div>
+                    <select ng-model="material.itemLeadTimeTypeId" name="leadTime" required>
+                        <option ng-repeat="leadTimeType in leadTimeTypes" value="{{ leadTimeType.id }}">
+                            {{ leadTimeType.type_value }}
+                        </option>
+                    </select>
+                </label>
+
+                <div ng-show="forms.materialForm.$submitted && forms.materialForm.leadTime.$invalid" ng-messages="forms.materialForm.leadTime.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.materialForm.$submitted && forms.materialForm.description.$invalid}">
+                    <span class="input-label">Description<span class="required">*</span></span>
+                    <input  ng-change="onChanged()" name="description" type="text" ng-model="material.desc" placeholder="" required>
+                </label>
+
+                <div ng-show="forms.materialForm.$submitted && forms.materialForm.description.$invalid" ng-messages="forms.materialForm.description.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item">
+                    <small>Unit of measure: pcs </small>
+                </label>
+
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.materialForm.$submitted && forms.materialForm.price.$invalid}">
+                    <div class="input-label">
+                        Unit price<span class="required">*</span>
+                    </div>
+                    <input name="price" ng-model="material.price" type="number" min="0.01" placeholder="0" required>
+                </label>
+
+                <div ng-show="forms.materialForm.$submitted && forms.materialForm.price.$invalid" ng-messages="forms.materialForm.price.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <div class="item">
+                    <p>
+                        <strong>Price: </strong>{{ material.qty * material.price }}
+                    </p>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <button ui-sref="billing-material({objectUuid: objectUuid, linkPersonWoId: linkPersonWoId})" class="button button-positive">Cancel</button>
+        <button ng-click="submit()" class="button button-positive pull-right">Save</button>
+    </div>
+</ion-view>

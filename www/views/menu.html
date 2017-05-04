@@ -1,0 +1,20 @@
+<ion-view hide-back-button="true">
+    <ion-nav-title>
+        Menu
+    </ion-nav-title>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="item in menuItems" href="{{::item.url}}" class="item-icon-left" online-only="{{ ::item.onlineOnly }}">
+                <i class="icon {{item.icon}}"></i>
+                {{ ::item.label }}
+            </ion-item>
+            <ion-item class="item-icon-left" ng-click="logout()">
+                <i class="icon ion-power"></i>
+                Logout
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <div class="bar bar-footer bar-dark text-center">
+        <small>v{{ appInfo.version }}</small>
+    </div>
+</ion-view>

@@ -1,0 +1,25 @@
+<ion-view title="Browse assets">
+    <ion-content>
+        <div class="list-top">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Type to search" ng-model="query">
+            </label>
+
+            <div class="button-bar">
+                <a class="button" ng-class="activeTabClass('site')" ng-click="toggleSite()" ui-sref="assets.mode({mode: 'site', address_uuid: address_uuid, work_order_uuid: work_order_uuid})" ui-sref-opts="{location: 'replace'}">
+                    Site <span ng-show="assetSummary.siteAssetsCount">({{ assetSummary.siteAssetsCount }})</span>
+                </a>
+                <a class="button" ng-class="activeTabClass('wo')" ng-click="toggleWo()" ui-sref="assets.mode({mode: 'wo', address_uuid: address_uuid, work_order_uuid: work_order_uuid})" ui-sref-opts="{location: 'replace'}">
+                    WO <span ng-show="assetSummary.workOrderAssetsCount">({{ assetSummary.workOrderAssetsCount }})</span>
+                </a>
+            </div>
+        </div>
+        <ui-view></ui-view>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <button class="button button-positive" ui-sref="create-asset({address_uuid: address_uuid, work_order_uuid: work_order_uuid})"><i class="ion-plus-circled"></i> Add new asset</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

@@ -1,0 +1,144 @@
+<form name="forms.assetForm" novalidate="" class="padding" style="padding-bottom: 100px;">
+    <div class="list">
+
+        <label class="item item-input" ng-class="{ 'has-errors' : forms.assetForm.$submitted && forms.assetForm.name.$invalid}">
+            <span class="input-label">Name<span class="required">*</span></span>
+            <input name="name" ng-model="asset.name" type="text" placeholder="" required>
+        </label>
+
+        <div ng-show="forms.assetForm.$submitted && forms.assetForm.name.$invalid" ng-messages="forms.assetForm.name.$error" class="error-container">
+            <div ng-messages-include="views/validation-errors.html"></div>
+        </div>
+
+        <label class="item item-input item-select" ng-class="{ 'has-errors' : forms.assetForm.$submitted && forms.assetForm.systemType.$invalid}">
+            <div class="input-label">
+                System type <span class="required">*</span>
+            </div>
+            <select name="systemType" ng-model="asset.system_type" required>
+                <option ng-repeat="type in dropdownValues.systemTypes track by type.key" value="{{ type.value }}">{{ type.value }}</option>
+            </select>
+        </label>
+
+        <div ng-show="forms.assetForm.$submitted && forms.assetForm.systemType.$invalid" ng-messages="forms.assetForm.systemType.$error" class="error-container">
+            <div ng-messages-include="views/validation-errors.html"></div>
+        </div>
+
+        <label class="item item-input" ng-class="{ 'has-errors' : forms.assetForm.$submitted && forms.assetForm.manufacturer.$invalid}">
+            <span class="input-label">Manufacturer <span class="required">*</span></span>
+            <input name="manufacturer" ng-model="asset.manufacturer" type="text" placeholder="" required>
+        </label>
+
+        <div ng-show="forms.assetForm.$submitted && forms.assetForm.manufacturer.$invalid" ng-messages="forms.assetForm.manufacturer.$error" class="error-container">
+            <div ng-messages-include="views/validation-errors.html"></div>
+        </div>
+
+
+        <label class="item item-input" ng-class="{ 'has-errors' : forms.assetForm.$submitted && forms.assetForm.model.$invalid}">
+            <span class="input-label">Model<span class="required">*</span></span>
+            <input name="model" ng-model="asset.model_number" type="text" placeholder="" required>
+        </label>
+
+        <div ng-show="forms.assetForm.$submitted && forms.assetForm.model.$invalid" ng-messages="forms.assetForm.model.$error" class="error-container">
+            <div ng-messages-include="views/validation-errors.html"></div>
+        </div>
+
+        <label ng-hide="asset.sn_not_readable" class="item item-input"  ng-class="{ 'has-errors' : forms.assetForm.$submitted && forms.assetForm.serialNumber.$invalid}">
+            <span class="input-label">Serial number <span class="required">*</span></span>
+            <input name="serialNumber" ng-model="asset.serial_number" type="text" placeholder="" ng-required="!asset.sn_not_readable">
+        </label>
+
+        <div ng-show="forms.assetForm.$submitted && forms.assetForm.serialNumber.$invalid" ng-messages="forms.assetForm.serialNumber.$error" class="error-container">
+            <div ng-messages-include="views/validation-errors.html"></div>
+        </div>
+
+        <label class="item item-checkbox">
+            <label class="checkbox">
+                <input ng-model="asset.sn_not_readable" type="checkbox">
+            </label>
+            S/N Not readable
+        </label>
+
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Heat type
+            </div>
+            <select name="heatType" ng-model="asset.heat_type">
+                <option ng-repeat="type in dropdownValues.heatTypes track by type.key" value="{{ type.value }}">{{ type.value }}</option>
+            </select>
+        </label>
+
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Voltage/Phase
+            </div>
+            <select name="voltage" ng-model="asset.voltage_type">
+                <option ng-repeat="type in dropdownValues.assetVoltage track by type.key" value="{{ type.value }}">{{ type.value }}</option>
+            </select>
+        </label>
+
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Refrigerant type
+            </div>
+            <select name="refrigerantType" ng-model="asset.refrigerant_type">
+                <option ng-repeat="type in dropdownValues.refrigerantTypes track by type.key" value="{{ type.value }}">{{ type.value }}</option>
+            </select>
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">Other refrigerant type</span>
+            <input ng-model="asset.other_refrigerant_type" type="text" placeholder="">
+        </label>
+
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Fresh air
+            </div>
+            <select name="freshAir" ng-model="asset.fresh_air">
+                <option ng-repeat="type in dropdownValues.freshAir track by type.key" value="{{ type.value }}">{{ type.value }}</option>
+            </select>
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">Filter quantity</span>
+            <input ng-model="asset.filter_quantity" type="text" placeholder="">
+        </label>
+
+        <label class="item item-input">
+            <span class="input-label">Filter size</span>
+            <input ng-model="asset.filter_size" type="text" placeholder="">
+        </label>
+
+        <label class="item item-checkbox">
+            <label class="checkbox">
+                <input ng-model="asset.belt" type="checkbox">
+            </label>
+            Belt
+        </label>
+
+        <label class="item item-input" ng-show="asset.belt">
+            <span class="input-label">Belt size</span>
+            <input ng-model="asset.belt_size" type="text" placeholder="">
+        </label>
+
+        <label class="item item-input item-select"   ng-class="{ 'has-errors' : forms.assetForm.$submitted && forms.assetForm.unitCondition.$invalid}">
+            <span class="input-label">
+                Unit condition <span class="required">*</span>
+            </span>
+            <select name="unitCondition" ng-model="asset.unit_condition" required>
+                <option ng-repeat="type in dropdownValues.unitConditions track by type.key" value="{{ type.value }}">{{ type.value }}</option>
+            </select>
+        </label>
+
+        <div ng-show="forms.assetForm.$submitted && forms.assetForm.unitCondition.$invalid" ng-messages="forms.assetForm.unitCondition.$error" class="error-container">
+            <div ng-messages-include="views/validation-errors.html"></div>
+        </div>
+
+        <label class="item item-input">
+            <div class="input-label">
+                Recommendations
+            </div>
+            <textarea ng-model="asset.recommendations" placeholder=""></textarea>
+        </label>
+    </div>
+</form>

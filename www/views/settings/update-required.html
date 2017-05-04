@@ -1,0 +1,11 @@
+<ion-view hide-nav-bar="true" class="update-required">
+    <ion-content class="padding">
+        <div>
+            <h3 class="text-center">Hey, there's a new version of our app - <strong>{{ VersionCheck.serverReturnedVersion }}</strong>. You now have
+            <strong>{{ VersionCheck.currentVersion }}</strong>. Please download latest version below to continue.</h3>
+            <div>
+                <a class="button button-full button-balanced" ng-click="openUpdatePage()">Update</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

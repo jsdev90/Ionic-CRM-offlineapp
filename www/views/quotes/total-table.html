@@ -1,0 +1,77 @@
+<h4>{{ stepName }}</h4>
+<table>
+    <thead>
+        <th style="width: 15%">
+            Category
+        </th>
+        <th style="width: 30%">
+            Description
+        </th>
+        <th style="width: 15%">
+            Trade
+        </th>
+        <th style="width: 10%">
+            Rate
+        </th>
+        <th style="width: 10%">
+            Qty
+        </th>
+        <th style="width: 10%">
+            Unit
+        </th>
+        <th style="width: 10%">
+            Total
+        </th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="entry in step.entries">
+            <td>
+                {{ entry.step_name }}
+            </td>
+            <td>
+                <!-- desc -->
+                <span ng-switch="entry.step_name">
+                    <span ng-switch-when="labor">
+                        {{ entry.men }} men, {{ entry.hrs }} hours
+                    </span>
+                    <span ng-switch-default>{{ entry.desc }}</span>
+                </span>
+            </td>
+            <td>
+                <!-- trade -->
+                {{ types[entry.trade_type_id].type_value }}
+            </td>
+            <td>
+                <!-- rate -->
+                {{ types[entry.labor_rate_type_id].type_value }}
+            </td>
+            <td>
+                <span ng-show="entry.qty">
+                    {{ entry.qty }}
+                </span>
+            </td>
+            <td>
+                <span ng-show="entry.unit">
+                    {{ entry.unit }}
+                </span>
+            </td>
+            <td>
+                <span ng-switch="entry.step_name">
+                    <span ng-switch-when="material" ng-show="entry.total">
+                        ${{ entry.total }}
+                    </span>
+                    <span ng-switch-when="miscellaneous" ng-show="entry.total">
+                        ${{ entry.total }}
+                    </span>
+                    <span ng-switch-when="labor" ng-show="entry.total">
+                        {{ entry.total }} hours
+                    </span>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p class="text-right">
+    <small><strong>Category total: ${{ step.total }}</strong></small>
+</p>

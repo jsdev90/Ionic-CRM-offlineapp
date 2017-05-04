@@ -1,0 +1,51 @@
+<ion-view cache-view="false">
+    <ion-nav-title>
+        Edit miscellaneous for asset {{ asset.name }}
+    </ion-nav-title>
+    <ion-content>
+        <form novalidate class="padding" name="forms.miscForm">
+            <div class="list">
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.miscForm.$submitted && forms.miscForm.quantity.$invalid}">
+                    <span class="input-label">Quantity<span class="required">*</span></span>
+                    <input name="quantity" type="number" min="1" placeholder="" ng-model="misc.qty" required>
+                </label>
+
+                <div ng-show="forms.miscForm.$submitted && forms.miscForm.quantity.$invalid" ng-messages="forms.miscForm.quantity.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.miscForm.$submitted && forms.miscForm.description.$invalid}">
+                    <span class="input-label">Description<span class="required">*</span></span>
+                    <input ng-model="misc.desc" name="description" type="text" placeholder="" required>
+                </label>
+
+                <div ng-show="forms.miscForm.$submitted && forms.miscForm.description.$invalid" ng-messages="forms.miscForm.description.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item">
+                    <small>Unit of measure: pcs </small>
+                </label>
+
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.miscForm.$submitted && forms.miscForm.price.$invalid}">
+                    <div class="input-label">
+                        Unit cost<span class="required">*</span>
+                    </div>
+                    <input name="price" ng-model="misc.price" type="text" min="0.01" placeholder="0" required>
+                </label>
+
+                <div ng-show="forms.miscForm.$submitted && forms.miscForm.price.$invalid" ng-messages="forms.miscForm.price.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <p>
+                    Price: {{ misc.qty * misc.price }}
+                </p>
+            </div>
+        </form>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <button ui-sref="billing-misc({objectUuid: objectUuid, linkPersonWoId: linkPersonWoId})" class="button button-positive">Cancel</button>
+        <button ng-click="submit()" class="button button-positive pull-right">Save</button>
+    </div>
+</ion-view>

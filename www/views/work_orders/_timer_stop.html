@@ -1,0 +1,25 @@
+<ion-modal-view>
+  <ion-header-bar align-title="left" class="bar-positive">
+    <h1 class="title">Work Description</h1>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+    <form name="stopTimerForm" ng-submit="stopTimer(wo, timerDescription)">
+      <ion-list>
+        <p>
+          Describe in detail, the work that you completed: (required)
+        </p>
+        <label class="item item-input">
+          <textarea required name="timerDescription" ng-model="timerDescription" placeholder="What was done?" rows="8"></textarea>
+        </label>
+
+        <div ng-messages="stopTimerForm.timerDescription.$error">
+          <p class="assertive" ng-message="required">Description is required.</p>
+        </div>
+      </ion-list>
+
+      <button type="submit" class="button button-full button-positive"
+        >Save</button>
+    </form>
+  </ion-content>
+</ion-modal-view>

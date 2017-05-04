@@ -1,0 +1,12 @@
+<ion-view>
+    <ion-nav-title>
+        Asset history photos
+    </ion-nav-title>
+    <ion-content class="padding">
+        <div class="list">
+            <div class="item" ng-repeat="photo in photos">
+                <img style="max-width: 100%" ng-src="{{ photo.thumbnail }}" />
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

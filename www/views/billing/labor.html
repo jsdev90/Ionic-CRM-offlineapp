@@ -1,0 +1,35 @@
+<ion-view>
+    <ion-nav-title>
+        Labor for asset {{ asset.name }}
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-positive">
+        <h3 class="title">Labor</h3>
+    </div>
+    <ion-content class="has-subheader padding">
+        <div class="padding-bottom">
+            <a ui-sref="billing-add-labor({objectUuid: objectUuid, linkPersonWoId: linkPersonWoId})" class="button button-positive"><i class="ion-plus"></i> Add</a>
+        </div>
+
+        <div class="list">
+            <div class="item item-text-wrap" collection-repeat="billingEntry in billingEntries track by $index">
+                <p>
+                    <strong>Hours: </strong>{{ billingEntry.hrs }}<br>
+                    <strong>Men: </strong>{{ billingEntry.men }}<br>
+                </p>
+                <div class="row">
+                    <div class="col" ng-hide="billingEntry.id">
+                        <a class="button button-block button-small button-assertive" ng-click="remove(billingEntry)">Remove</a>
+                    </div>
+                    <div class="col" ng-show="billingEntry.id">
+                      <strong style="color: green">Synced <i class="ion-checkmark-round"></i></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer bar-dark billing">
+        <a ui-sref="billing-misc({objectUuid: objectUuid, linkPersonWoId: linkPersonWoId})" class="button button-positive">Previous</a>
+        <a ui-sref="assets.mode({mode: 'wo', work_order_uuid: wo.uuid, address_uuid: wo.address_uuid})" class="button button-positive">Back to assets</a>
+        <a ui-sref="billing-material({objectUuid: objectUuid, linkPersonWoId: linkPersonWoId})" class="button button-positive">Next</a>
+    </div>
+</ion-view>

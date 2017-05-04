@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col no-padding">
+        <h3 ng-show="message.creator_person_id">
+            <b>From:</b><br />
+            {{ message.creator_person_name || message.from_person_first_name  + ' ' + message.from_person_last_name }}
+        </h3>
+    </div>
+    <div class="col no-padding">
+        <h3 ng-show="message.person_id">
+            <b>To:</b><br />
+            {{ message.person_name || message.person_first_name + ' ' +  message.person_last_name }}
+        </h3>
+    </div>
+</div>
+<div class="row" style="margin-top: 10px">
+    <div class="col no-padding">
+        <h3 ng-show="message.work_order_number" style="margin-bottom: 8px;">
+            <b>Work Order #:</b> {{ message.work_order_number }}
+        </h3>
+
+        <h3 ng-show="message.client_and_address.customer_name">
+          <b>Client: </b> {{ message.client_and_address.customer_name }}
+        </h3>
+
+        <div ng-show="message.client_and_address && message.client_and_address.address_id">
+          <div class="col no-padding" style="padding-top: 5px;">
+              <h3><b>Address: </b></h3>
+              <p ng-show="message.client_and_address.address">
+                {{ message.client_and_address.address }}
+                {{ message.client_and_address.address2 }}
+                <br />
+                {{ message.client_and_address.city }}, {{ message.client_and_address.state | uppercase }} {{ message.client_and_address.zip_code }}
+              </p>
+              <br />
+          </div>
+        </div>
+
+        <h3><i ng-show="message.hot" class="ion-android-warning"></i> <b>Description:</b></h3>
+        <p>
+            {{ ::message.description }}
+        </p>
+
+        <br>
+        <small><strong>Created at:</strong> {{ message.created_at | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }}</small><br>
+        <small ng-show="message.completed"><strong>Completed at:</strong> {{ message.completed_at | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT  }}</small><br />
+
+        <div class="row no-padding">
+            <div class="col" ng-show="message.object_uuid && message.object_uuid != objectUuid">
+                <button
+                class="button button-block button-positive"
+                ng-click="goToRelatedWorkOrder(message)">
+                    <i class="ion-arrow-right-a"></i> Go to WO
+                </button>
+            </div>
+            <div class="col" ng-show="!message.completed && message.type == 'task' && message.person_id == currentAccount.person_id">
+                <button
+                    ng-click="complete(message)"
+                    class="button button-block button-positive">
+                    <i class="ion-checkmark-round"></i> Complete
+                </button>
+            </div>
+        </div>
+
+        <div class="row no-padding" ng-show="canReply(message)">
+            <div class="col">
+                <button
+                class="button button-block button-positive"
+                ui-sref="create-message({objectUuid: message.object_uuid, objectId: message.object_id, objectType: message.object_type, receiverPersonId: message.from_person_id})">
+                    <i class="ion-reply"></i> Reply
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

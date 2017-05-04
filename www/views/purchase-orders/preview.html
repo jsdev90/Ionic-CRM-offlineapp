@@ -1,0 +1,101 @@
+<ion-view>
+    <ion-nav-title>Purchase order #{{ purchaseOrder.purchase_order_number }}</ion-nav-title>
+    <ion-content class="padding">
+        <form name="forms.purchaseOrders" novalidate>
+            <div>
+                <div class="row no-padding">
+                    <div class="col no-padding">
+                        <p>
+                            <strong>Status:</strong> {{ purchaseOrder.status ? purchaseOrder.status : '-' }}
+                        </p>
+                        <br />
+                        <p>
+                            <strong>Location #{{ purchaseOrder.location_name }}:</strong>
+                            <span style="display: block" ng-show="purchaseOrder.address">
+                                {{ purchaseOrder.address }}
+                            </span>
+                            <span style="display: block" ng-show="purchaseOrder.address2">
+                                {{ purchaseOrder.address2 }}
+                            </span>
+                            <span style="display: block">
+                                {{ purchaseOrder.city }}, {{ purchaseOrder.state | uppercase }} {{ purchaseOrder.zip_code }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row no-padding" ng-show="purchaseOrder.ship_to">
+                    <div class="col">
+                        <strong>Ship to:</strong><br />
+                        <p ng-bind-html="purchaseOrder.ship_to | nl2br | rawHtml"></p>
+                    </div>
+                </div>
+                <div class="row no-padding">
+                  <div class="col">
+                    <a class="button button-positive button-block" online-only ui-sref="purchase-orders-notes({id: purchaseOrder.id})">Show PO notes</a>
+                  </div>
+                </div>
+            </div>
+            <div class="list" style="margin-top: 8px;">
+                <div class="item item-select">
+                    <div class="input-label">
+                        Warehouse<span class="required">*</span>:
+                    </div>
+
+                    <select
+                    ng-model="purchaseOrder.pickedStoreId"
+                    name="pickedStoreId"
+                    ng-options="store.id as store.name for store in stores"
+                    required>
+                        <option value="">Please select...</option>
+                    </select>
+                </div>
+
+                <div ng-show="forms.purchaseOrders.$submitted && forms.purchaseOrders.pickedStoreId.$invalid" ng-messages="forms.purchaseOrders.pickedStoreId.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <div class="item item-text-wrap purchase-order" ng-repeat="purchaseOrderEntry in purchaseOrderEntries">
+                    <h3>Item #{{ $index + 1 }}</h3>
+
+                    <p>
+                        {{ purchaseOrderEntry.description }}
+                    </p>
+
+                    <p>
+                        <b>UPC:</b> {{ purchaseOrderEntry.upc }}
+                    </p>
+
+                    <p>
+                        <b>Number:</b> {{ purchaseOrderEntry.number }}
+                    </p>
+
+                    <p>
+                        <br />
+                        <b>Ordered:</b> {{ purchaseOrderEntry.quantity }} <b>Left:</b> {{ purchaseOrderEntry.quantity - purchaseOrderEntry.received_qty }}
+                    </p>
+
+                    <p ng-show="purchaseOrderEntry.quantity - purchaseOrderEntry.received_qty">
+                        <br />
+                        <b>Receive:</b>
+                    </p>
+                    <div ng-show="purchaseOrderEntry.quantity - purchaseOrderEntry.received_qty" class="row no-padding receive">
+                        <div class="col">
+                            <a class="button button-small button-positive button-block" ng-click="subtract(purchaseOrderEntry)"><i class="ion-minus"></i></a>
+                        </div>
+                        <div class="col text-center">
+                            <input ng-model="purchaseOrderEntry.ordered" type="number" style="max-width: 100%; text-align: center; border: 1px solid whitesmoke">
+                        </div>
+                        <div class="col">
+                            <a class="button button-small button-positive button-block" ng-click="add(purchaseOrderEntry)"><i class="ion-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <button class="button button-positive" ng-click="receiveInventory()">Receive Inventory</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

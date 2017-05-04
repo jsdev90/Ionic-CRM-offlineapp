@@ -1,0 +1,67 @@
+<ion-view cache-view="false">
+    <ion-nav-title>
+        Edit quote labor for asset {{ asset.name }}
+    </ion-nav-title>
+    <ion-content>
+        <form name="forms.laborForm" novalidate>
+            <div class="list">
+                <label class="item item-input item-select" ng-class="{ 'has-errors' : forms.laborForm.$submitted && forms.laborForm.hours.$invalid}">
+                    <div class="input-label">
+                        Hours*
+                    </div>
+                    <select name="hours" ng-model="labor.hrs" required>
+                        <option ng-repeat="timeRange in timeRanges" ng-selected="labor.hrs == timeRange">{{ timeRange }}</option>
+                    </select>
+                </label>
+
+                <div ng-show="forms.laborForm.$submitted && forms.laborForm.hours.$invalid" ng-messages="forms.laborForm.hours.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input item-select"  ng-class="{ 'has-errors' : forms.laborForm.$submitted && forms.laborForm.laborRateTypeId.$invalid}">
+                    <div class="input-label">
+                        Labor rate*
+                    </div>
+                    <select name="laborRateTypeId" ng-model="labor.laborRateTypeId" required>
+                        <option ng-repeat="laborRateType in laborRateTypes track by laborRateType.id" value="{{ laborRateType.id }}" ng-selected="labor.laborRateTypeId == laborRateType.id">{{ laborRateType.type_value }}</option>
+                    </select>
+                </label>
+
+                <div ng-show="forms.laborForm.$submitted && forms.laborForm.laborRateTypeId.$invalid" ng-messages="forms.laborForm.laborRateTypeId.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input item-select"  ng-class="{ 'has-errors' : forms.laborForm.$submitted && forms.laborForm.laborTradeTypeId.$invalid}">
+                    <div class="input-label">
+                        Trade*
+                    </div>
+                    <select name="laborTradeTypeId" ng-model="labor.tradeTypeId" required>
+                        <option ng-repeat="tradeType in laborTradeTypes track by tradeType.id" value="{{ tradeType.id }}" ng-selected="labor.tradeTypeId == tradeType.id">{{ tradeType.type_value }}</option>
+                    </select>
+                </label>
+
+                <div ng-show="forms.laborForm.$submitted && forms.laborForm.laborTradeTypeId.$invalid" ng-messages="forms.laborForm.laborTradeTypeId.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+
+                <label class="item item-input" ng-class="{ 'has-errors' : forms.laborForm.$submitted && forms.laborForm.men.$invalid}">
+                    <div class="input-label">
+                        How many men?*
+                    </div>
+                    <input name="men" type="number" ng-model="labor.men" placeholder="0" required min="1">
+                </label>
+
+                <div ng-show="forms.laborForm.$submitted && forms.laborForm.men.$invalid" ng-messages="forms.laborForm.men.$error" class="error-container">
+                    <div ng-messages-include="views/validation-errors.html"></div>
+                </div>
+            </div>
+            <div class="padding">
+                <h4>Total: {{ (labor.hrs ? labor.hrs : 0) * (labor.men ? labor.men : 0) }} hours</h4>
+            </div>
+        </form>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <button class="button button-energized" ui-sref="billing-labor({objectUuid: objectUuid, linkPersonWoId: linkPersonWoId})">Cancel</button>
+        <button class="button button-positive pull-right" ng-click="submit()">Save</button>
+    </div>
+</ion-view>

@@ -1,0 +1,15 @@
+<ion-view>
+    <ion-nav-title>
+        Tasks for Work Order #{{ wo.work_order_number }}
+    </ion-nav-title>
+    <ion-content>
+        <div class="list">
+            <div class="item item-text-wrap" ng-repeat="survey in surveys" ui-sref="survey-preview({surveyInstanceId: survey.survey_instance_id})">
+                <h3>{{ survey.survey_instance_id + ' - ' + survey.name }}</h3>
+                <p>
+                    <b>Answers: </b><span ng-style="{color: (survey.answered != survey.total) ? 'red' : 'green' }">{{ survey.answered }} / {{ survey.total }}</span>
+                </p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

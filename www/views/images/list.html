@@ -1,0 +1,25 @@
+<ion-view cache-view="false" title="Photos">
+
+    <ion-nav-buttons side="right">
+        <add-image ng-hide="readOnly" image-options="{objectUuid: object.uuid, objectId: object.id, objectType: object.type}"></add-image>
+    </ion-nav-buttons>
+
+    <ion-content lazy-scroll>
+        <ion-list ng-show="images.length">
+            <ion-item class="item" ng-repeat="image in images" ng-click="showPreview($index, image)">
+                <img ng-src="{{ ::image.thumbnailPath }}" style="width: 100%; height: auto">
+            </ion-item>
+        </ion-list>
+
+        <div class="card" ng-hide="images.length">
+            <div class="item item-text-wrap">
+                No photos.
+            </div>
+        </div>
+
+        <ion-infinite-scroll
+                on-infinite="loadMore()"
+                distance="1%">
+        </ion-infinite-scroll>
+    </ion-content>
+</ion-view>

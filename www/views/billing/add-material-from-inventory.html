@@ -1,0 +1,21 @@
+<ion-modal-view>
+    <ion-header-bar align-title="left" class="bar-positive">
+        <h1 class="title">Add material from inventory</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list">
+            <div class="item item-button-right" ng-repeat="item in inventory track by $index">
+                <strong>Quantity: </strong>{{ item.qty }}<br>
+                <strong>Description: </strong>{{ item.desc }}<br>
+                <strong>Company: </strong>{{ item.company }}<br>
+                <strong>Number: </strong>{{ item.number }}<br>
+                <strong>Upc: </strong>{{ item.upc }}<br>
+                <button class="button button-positive" ng-click="chooseItem(item, 1)">Pick</button>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar>
+        <button class="button button-energized button-block" ng-click="closeAddFromInventory()">Cancel</button>
+    </ion-footer-bar>
+</ion-modal-view>

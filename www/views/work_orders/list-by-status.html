@@ -1,0 +1,14 @@
+<ion-list ng-show="workOrders.length">
+    <ion-item ng-repeat="wo in workOrders | filter:query" href="#/work-orders/{{ wo.uuid }}">
+        <b>#{{ ::wo.work_order_number }}</b><br>
+        <strong>Status:</strong> <i ng-show="isTimerRunningForWorkOrder(wo)" class="ion-clock energized"></i> {{ wo.status | workOrderStatus }} <span ng-show="wo.tech_status">({{ wo.tech_status }})</span> <br>
+        <strong>ECD:</strong> {{ ::wo.expected_completion_date | amUtc | amLocal | amDateFormat : DEFAULT_DISPLAY_DATE_FORMAT }}<br>
+        <strong>Client:</strong> {{ ::wo.client }}<br>
+        <span ng-show="wo.address_id">
+            <strong>Address:</strong><br>
+            {{ ::wo.street }}<br />
+            {{ ::wo.city }}, {{ wo.state | uppercase }} {{ ::wo.zip_code }}<br>
+        </span>
+        <b>Description:</b> {{ ::wo.description }}
+    </ion-item>
+</ion-list>

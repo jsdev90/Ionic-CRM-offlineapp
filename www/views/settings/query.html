@@ -1,0 +1,23 @@
+<ion-view title="Settings">
+    <div class="bar bar-subheader">
+        <h3 class="title">SQL Query tester</h3>
+    </div>
+
+    <ion-content class="has-subheader padding">
+        <div class="list">
+            <label class="item item-input">
+                <textarea placeholder="SQL query" ng-model="query" rows="8"></textarea>
+            </label>
+        </div>
+
+        <a class="button button-full button-positive" ng-click="runQuery(query)">Run</a>
+
+        <div class="row">
+            <div class="col" style="font-size:smaller">
+                <textarea rows="10" style="width: 100%">{{ queryResult }}</textarea>
+            </div>
+        </div>
+
+        <a class="button button-full button-assertive" ng-click="deleteAll()">Delete data</a>
+    </ion-content>
+</ion-view>

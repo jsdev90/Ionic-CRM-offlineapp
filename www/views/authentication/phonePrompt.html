@@ -1,0 +1,23 @@
+<ion-view title="Enter your phone number">
+    <ion-content class="phone-number-prompt">
+        <div class="row row-bottom">
+            <div class="col">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Country code
+                    </div>
+                    <select ng-model="phone.countryCode">
+                        <option ng-repeat="code in countryCodes track by $index" ng-selected="code.value === phone.countryCode" value="{{ code.value }}">{{ code.label }}</option>
+                    </select>
+                </label>
+                <label class="item item-input">
+                    <input ng-model="phone.number" type="number" placeholder="Enter your Phone Number">
+                </label>
+                <button ng-disabled="!phone.number" class="button button-block button-positive" ng-click="getConfirmationCode(phone)">Continue</button>
+            </div>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer bar-dark text-center">
+        <small>v{{ appInfo.version }}</small>
+    </div>
+</ion-view>

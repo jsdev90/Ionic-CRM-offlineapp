@@ -1,0 +1,40 @@
+<ion-view>
+    <ion-nav-title>Select purchase order...</ion-nav-title>
+    <ion-content class="padding">
+        <div class="list" ng-show="purchaseOrders.length">
+            <div ng-repeat="purchaseOrder in purchaseOrders" class="item item-text-wrap" ui-sref="purchase-order({id: purchaseOrder.id})">
+                <h2><b>{{ purchaseOrder.purchase_order_number }}</b></h2>
+                <div class="row no-padding">
+                    <div class="col no-padding">
+                        <p>
+                            <strong>Status:</strong> {{ purchaseOrder.status ? purchaseOrder.status : '-' }}
+                        </p>
+                        <p>
+                            <strong>ETA:</strong> {{ purchaseOrder.eta_date | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT_NO_TIME }}
+                        </p>
+                        <p>
+                            <strong>Location: #{{ purchaseOrder.location_name }}</strong>
+                            <div ng-show="purchaseOrder.address">
+                                {{ purchaseOrder.address }}
+                            </div>
+                            <div ng-show="purchaseOrder.address2">
+                                {{ purchaseOrder.address2 }}
+                            </div>
+                            <div>
+                                {{ purchaseOrder.city }}, {{ purchaseOrder.state | uppercase }} {{ purchaseOrder.zip_code }}
+                            </div>
+                        </p>
+                        <br />
+                        <p>
+                            <strong>Ship to: </strong><br />
+                        </p>
+                        <p ng-bind-html="purchaseOrder.ship_to | nl2br | rawHtml"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="!purchaseOrders.length">
+            <h3>No purchase orders found</h3>
+        </div>
+    </ion-content>
+</ion-view>

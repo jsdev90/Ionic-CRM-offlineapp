@@ -1,0 +1,38 @@
+<ion-view>
+    <ion-nav-title>
+        Add equipment for {{ asset.name }}
+    </ion-nav-title>
+    <ion-content>
+        <form novalidate name="forms.equipmentForm" class="padding">
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Equipment<span class="required">*</span>
+                </div>
+                <select ng-model="equipment.desc" name="itemId" required>
+                    <option ng-repeat="item in availableItems track by item.id" value="{{ item.description }}">
+                        {{ item.description }} (Company: {{ item.company }})
+                    </option>
+                </select>
+            </label>
+
+            <div ng-show="forms.equipmentForm.$submitted && forms.equipmentForm.itemId.$invalid" ng-messages="forms.equipmentForm.itemId.$error" class="error-container">
+                <div ng-messages-include="views/validation-errors.html"></div>
+            </div>
+
+            <label class="item item-input" ng-class="{ 'has-errors' : forms.equipmentForm.$submitted && forms.equipmentForm.qty.$invalid}">
+                <div class="input-label">
+                    Quantity <span class="required">*</span>
+                </div>
+                <input ng-model="equipment.qty" name="qty" type="number" required min="1">
+            </label>
+
+            <div ng-show="forms.equipmentForm.$submitted && forms.equipmentForm.qty.$invalid" ng-messages="forms.equipmentForm.qty.$error" class="error-container">
+                <div ng-messages-include="views/validation-errors.html"></div>
+            </div>
+        </form>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <button class="button button-energized" ui-sref="equipment({quoteUuid: quoteUuid})">Cancel</button>
+        <button class="button button-positive pull-right" ng-click="submit()">Save</button>
+    </div>
+</ion-view>

@@ -1,0 +1,117 @@
+<ion-view>
+
+    <ion-nav-title>
+        Quotes for {{ asset.name }}
+    </ion-nav-title>
+
+    <ion-tabs class="tabs-positive tabs-icon-left tabs-quotes">
+        <ion-tab title="New">
+            <ion-nav-view>
+                <ion-content>
+                    <div class="list">
+                        <div class="item item-text-wrap" ng-repeat="quote in newQuotes">
+                            <div class="row no-padding">
+                                <div class="col">
+                                    <strong>Created at: </strong>{{ quote.created_at }}
+                                    <p>
+                                        {{ quote.description }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row no-padding">
+                                <div class="col">
+                                    <button ng-click="onRemove(quote)" class="button button-assertive button-block button-small">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ion-content>
+            </ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="Existing">
+            <ion-nav-view>
+
+                <ion-content>
+                    <div class="list">
+                        <div class="item item-text-wrap" ng-repeat="quote in existingQuotes">
+                            <div class="row no-padding">
+                                <div class="col">
+                                    <strong>Sent at: </strong>{{ quote.ready_at }}
+                                    <p>
+                                        {{ quote.description }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ion-content>
+            </ion-nav-view>
+
+        </ion-tab>
+
+        <ion-tab title="Approved">
+            <ion-nav-view>
+                <ion-content>
+                    <div class="list">
+                        <div class="item item-text-wrap" ng-repeat="quote in approvedQuotes">
+                            <div class="row no-padding">
+                                <div class="col">
+                                    <p>
+                                        <strong>Created at: </strong>{{ quote.created_at }}<br />
+                                        <strong>Approved at: </strong>{{ quote.approved_at }}<br  />
+                                        <br />
+                                    </p>
+
+                                    <div ng-show="quote.summary">
+                                        <p ng-show="quote.description != 'undefined'">
+                                            {{ quote.description }}
+                                        </p>
+
+                                        <div ng-repeat="(summaryCategoryName, summaryCategory) in quote.summary">
+                                            <h3>{{ summaryCategoryName }}</h3>
+                                            <table>
+                                                <tr>
+                                                    <th>
+                                                        Description
+                                                    </th>
+                                                    <th>
+                                                        Hours
+                                                    </th>
+                                                    <th>
+                                                        Men
+                                                    </th>
+                                                    <th>
+                                                        Quantity
+                                                    </th>
+                                                </tr>
+                                                <tr ng-repeat="summaryEntry in summaryCategory">
+                                                    <td>
+                                                        {{ summaryEntry.desc ? summaryEntry.desc : '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ summaryEntry.hrs ? summaryEntry.hrs : '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ summaryEntry.men ? summaryEntry.men : '-' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ summaryEntry.qty ? summaryEntry.qty : '-' }}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ion-content>
+            </ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+    <ion-footer-bar>
+        <a ui-sref="assets.mode({mode: 'wo', work_order_uuid: workOrder.uuid, address_uuid: workOrder.address_uuid})" class="button button-positive">Back to assets</a>
+        <button class="button button-positive pull-right" ng-click="addEntry()"><i class="ion-plus"></i> Add quote</button>
+    </ion-footer-bar>
+</ion-view>

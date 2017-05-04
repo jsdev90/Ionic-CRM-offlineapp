@@ -1,0 +1,1 @@
+cordova -d plugin add https://github.com/crittercism/PhoneGap.git --variable IOS_APP_ID="565eeb5bd224ac0a00ed4498" --variable ANDROID_APP_ID="565eeb5bd224ac0a00ed4498"

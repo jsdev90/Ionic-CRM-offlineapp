@@ -1,0 +1,44 @@
+<ion-view>
+    <ion-nav-title>
+        Subcontractor for {{ asset.name }}
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-positive">
+        <h3 class="title">Subcontractor</h3>
+    </div>
+    <ion-content class="has-subheader padding">
+        <div class="padding-bottom">
+            <a ui-sref="add-subcontractor({quoteUuid: quoteUuid})" class="button button-positive"><i class="ion-plus"></i> Add subcontractor</a>
+        </div>
+
+        <div class="list" style="padding-bottom: 40px;">
+            <div class="item item-text-wrap item-thumbnail-left" ng-repeat="quoteEntry in quoteEntries">
+                <img ng-show="quoteEntry.thumbnail" ng-src="{{ quoteEntry.thumbnail }}">
+                <p>
+                    <strong>Trade:</strong><br>
+                    {{ quoteEntry.trade }}
+                </p>
+                <p>
+                    <strong>Description:</strong><br>
+                    {{ quoteEntry.desc }}
+                </p>
+                <p>
+                    <strong>Name:</strong><br>
+                    {{ quoteEntry.subcontractor_name }}
+                </p>
+                <div class="row">
+                    <div class="col">
+                        <a class="button button-block button-small button-positive" ui-sref="edit-subcontractor({quoteEntryUuid: quoteEntry.uuid, quoteUuid: quoteUuid})">Edit</a>
+                    </div>
+                    <div class="col">
+                        <a class="button button-block button-small button-assertive" ng-click="remove(quoteEntry)">Remove</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <a ui-sref="labor({quoteUuid: quoteUuid})" class="button button-positive">Previous</a>
+        <a ui-sref="material({quoteUuid: quoteUuid})" class="button button-positive pull-right">Next</a>
+    </div>
+</ion-view>

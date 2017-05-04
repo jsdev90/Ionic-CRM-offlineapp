@@ -1,0 +1,90 @@
+<ion-view title="Time Sheets">
+	<ion-tabs class="tabs-positive tabs-icon-left">
+		<ion-tab title="<i class='ion-stats-bars'></i> Daily statistics">
+			<ion-nav-view>
+				<ion-content class="padding">
+					<h4 class="title">Time Sheets<br /><small>For {{ viewedDay | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT_NO_TIME }}</small></h4>
+					<div ng-show="dailyTimers.length">
+						<div collection-repeat="timer in dailyTimers" item-height="85px">
+							<ng-include src="'views/time_sheets/timer.html'"></ng-include>
+						</div>
+					</div>
+					<div style="padding-bottom: 80px; margin-top: 30px;">
+						<h4><b>Summary</b></h4>
+						<strong>Total:</strong><br />
+						<div ng-repeat="type in types" class="row no-padding">
+							<div class="col col-20 no-padding">
+								<b>{{ type }}: </b>
+							</div>
+							<div class="col no-padding">
+								{{ TimeSheet.calculateTotalForType(type, dailyTimers) }}
+							</div>
+						</div>
+						<br />
+						<strong>By WO#: </strong><br />
+						<div class="row no-padding" ng-repeat="(workOrderNumber, total) in TimeSheet.calculateTotalByWorkOrder(dailyTimers)">
+							<div class="col col-30 no-padding">
+								<b>#{{ workOrderNumber }}</b>
+							</div>
+							<div class="col no-padding">
+								{{ total }}
+							</div>
+						</div>
+					</div>
+				</ion-content>
+
+				<div class="bar bar-footer">
+					<div class="button-bar">
+						<button class="button button-positive" ng-click="getPreviousDay()"><i class="ion-arrow-left-c"></i> Previous day</button>
+						<button class="button button-positive" ng-click="getCurrentDay()"><i class="ion-refresh"></i> Current Day</button>
+						<button class="button button-positive" ng-click="getNextDay()">Next day <i class="ion-arrow-right-c"></i></button>
+					</div>
+				</div>
+			</ion-nav-view>
+		</ion-tab>
+
+		<ion-tab title="<i class='ion-stats-bars'></i> Weekly statistics">
+			<ion-nav-view>
+				<ion-content class="padding">
+					<h4 class="title">Time Sheets <br /><small>for week #{{ weeklyEndDate | amUtc | amLocal | amDateFormat: 'w' }} {{ weeklyStartDate | amUtc | amLocal | amDateFormat: 'MM/DD/YYYY' }} - {{ weeklyEndDate | amUtc | amLocal | amDateFormat: 'MM/DD/YYYY' }}</small></h4>
+					<div ng-show="weeklyTimers.length">
+						<div collection-repeat="timer in weeklyTimers" item-height="85px">
+							<ng-include src="'views/time_sheets/timer.html'"></ng-include>
+						</div>
+					</div>
+					<div style="padding-bottom: 80px; margin-top: 30px;">
+						<h4><b>Summary</b></h4>
+						<strong>Total:</strong><br />
+						<div ng-repeat="type in types" class="row no-padding">
+							<div class="col col-20 no-padding">
+								<b>{{ type }}: </b>
+							</div>
+							<div class="col no-padding">
+								{{ TimeSheet.calculateTotalForType(type, weeklyTimers) }}
+							</div>
+						</div>
+						<br />
+						<strong>By WO#: </strong><br />
+						<div class="row no-padding" ng-repeat="(workOrderNumber, total) in TimeSheet.calculateTotalByWorkOrder(weeklyTimers)">
+							<div class="col col-30 no-padding">
+								<b>#{{ workOrderNumber }}</b>
+							</div>
+							<div class="col no-padding">
+								{{ total }}
+							</div>
+						</div>
+					</div>
+				</ion-content>
+				<div class="bar bar-footer">
+					<div class="button-bar">
+						<div class="button-bar">
+							<button class="button button-positive" ng-click="getPreviousWeek()"><i class="ion-arrow-left-c"></i> Previous week</button>
+							<button class="button button-positive" ng-click="getCurrentWeek()"><i class="ion-refresh"></i> Current week</button>
+							<button class="button button-positive" ng-click="getNextWeek()">Next week <i class="ion-arrow-right-c"></i></button>
+						</div>
+					</div>
+				</div>
+			</ion-nav-view>
+		</ion-tab>
+	</ion-tabs>
+</ion-view>

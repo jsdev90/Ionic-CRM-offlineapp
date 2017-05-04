@@ -1,0 +1,12 @@
+<div class="item item-text-wrap">
+    <div class="row no-padding" style="font-size: 11px;">
+        <div class="col col-25 no-padding">
+            <strong>{{ timer.type }}</strong>
+        </div>
+        <div class="col no-padding">
+            <b>Start:</b> {{ timer.start_at | amUtc | amLocal | amDateFormat : DEFAULT_DISPLAY_DATE_FORMAT }}<br />
+            <b>Stop:</b> {{ timer.stop_at ? (timer.stop_at | amUtc | amLocal | amDateFormat : DEFAULT_DISPLAY_DATE_FORMAT) : ' In progress ' }}</br>
+            <b>WO#:</b> {{ timer.work_order_number }}
+        </div>
+    </div>
+</div>

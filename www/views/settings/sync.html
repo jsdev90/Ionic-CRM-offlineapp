@@ -1,0 +1,39 @@
+<ion-view title="Sync Status">
+    <ion-content class="has-subheader padding">
+        <p>
+            <strong>
+                Timestamps for last table sync of each of the tables.
+            </strong>
+        </p>
+        <table>
+            <thead>
+                <th>
+                    Table name
+                </th>
+                <th>
+                    Last sync at
+                </th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in syncs">
+                    <td>
+                        {{ item.table_name }}
+                    </td>
+                    <td>
+                        {{ item.last_sync_at | amUtc | amLocal | amDateFormat:DEFAULT_DISPLAY_DATE_FORMAT }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <button ng-click="forceSync()" class="button button-block button-positive">Sync now</button>
+        </div>
+        <div style="padding-top: 20px; text-align: center;">
+            <h4>Not synchronized files count: {{ notSynced }}</h4>
+        </div>
+        <div>
+            <button ng-click="forceSyncFiles()" class="button button-block button-positive">Sync files</button>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,15 @@
+<ion-view title="Confirmation">
+    <ion-content class="confirmation-code-prompt">
+        <div class="row row-bottom">
+            <div class="col">
+                <label class="item item-input">
+                    <input ng-model="confirmation.code" type="number" placeholder="Enter your Confirmation Code here">
+                </label>
+                <button ng-disabled="!confirmation.code" class="button button-block button-positive" ng-click="getAccessToken(confirmation)">Continue</button>
+            </div>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer bar-dark text-center">
+        <small>v{{ appInfo.version }}</small>
+    </div>
+</ion-view>

@@ -1,0 +1,38 @@
+<ion-content>
+    <form name="forms.messageForm" novalidate="" class="padding" style="padding-bottom: 40px;">
+        <div class="list">
+            <label class="item item-input item-stacked-label" ng-class="{ 'has-errors' : forms.messageForm.$submitted && forms.messageForm.description.$invalid}">
+                <span class="input-label">Description  <span class="required">*</span></span>
+                <textarea name="description" rows="2" ng-model="message.description" placeholder="" required></textarea>
+            </label>
+
+            <div ng-show="forms.messageForm.$submitted && forms.messageForm.description.$invalid" ng-messages="forms.messageForm.description.$error" class="error-container">
+                <div ng-messages-include="views/validation-errors.html"></div>
+            </div>
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Person<span class="required">*</span>
+                </div>
+                <select name="person_id" required ng-model="message.person_id" ng-options="person.id as (person.first_name + ' ' + person.last_name) for person in persons">
+                    <option value="">Please select</option>
+                </select>
+            </label>
+
+            <div ng-show="forms.messageForm.$submitted && forms.messageForm.person_id.$invalid" ng-messages="forms.messageForm.person_id.$error" class="error-container">
+                <div ng-messages-include="views/validation-errors.html"></div>
+            </div>
+
+            <label class="item item-checkbox">
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="message.hot">
+                </label>
+                Hot
+            </label>
+        </div>
+    </form>
+</ion-content>
+<div class="bar bar-footer bar-dark">
+    <button ng-click="clear()" class="button button-energized">Clear</button>
+    <button ng-click="submit()" ng-disabled="isSaveDisabled()" class="button button-positive pull-right">Save</button>
+</div>

@@ -1,0 +1,50 @@
+<ion-view>
+    <ion-nav-title>
+        Task preview: {{ survey.name }}
+    </ion-nav-title>
+    <ion-content>
+        <form name="forms.surveyForm" novalidate style="padding-bottom: 100px;">
+            <div class="list">
+                <div class="item item-text-wrap" ng-repeat="question in questions">
+                    <h3><b>{{ question.title }}<span class="required" ng-show="question.required">*</span></b></h3>
+                    <p ng-show="question.help_text">
+                        <small>{{ question.help_text }}</small>
+                    </p><br />
+
+                    <div style="border: 1px solid whitesmoke" ng-show="!question.type || question.type == 'paragraph' || question.type == 'text'">
+                        <textarea name="{{ question.survey_question_id }}_paragraph" ng-required="question.required"
+                        ng-model="answers[question.survey_question_id].answer" style="width: 100%"></textarea>
+                    </div>
+                    <div ng-show="question.type == 'option'">
+                        <select
+                            ng-required="question.required && question.type == 'option'"
+                            ng-model="answers[question.survey_question_id].answer"
+                            style="width: 100%"
+                            ng-options="key as value for (key , value) in question.options"
+                            name="{{ question.survey_question_id }}_option"
+                        >
+                            <option value="">
+                                Please select
+                            </option>
+                        </select>
+                    </div>
+
+                    <div ng-show="forms.surveyForm.$submitted && forms.surveyForm[question.survey_question_id+'_text'].$invalid" ng-messages="forms.surveyForm[question.survey_question_id+'_text'].$error" class="error-container">
+                        <div ng-messages-include="views/validation-errors.html"></div>
+                    </div>
+
+                    <div ng-show="forms.surveyForm.$submitted && forms.surveyForm[question.survey_question_id+'_paragraph'].$invalid" ng-messages="forms.surveyForm[question.survey_question_id+'_paragraph'].$error" class="error-container">
+                        <div ng-messages-include="views/validation-errors.html"></div>
+                    </div>
+
+                    <div ng-show="forms.surveyForm.$submitted && forms.surveyForm[question.survey_question_id+'_option'].$invalid" ng-messages="forms.surveyForm[question.survey_question_id+'_option'].$error" class="error-container">
+                        <div ng-messages-include="views/validation-errors.html"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <button class="button button-positive pull-right" ng-click="submit()">Save</button>
+    </div>
+</ion-view>

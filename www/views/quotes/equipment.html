@@ -1,0 +1,38 @@
+<ion-view>
+    <ion-nav-title>
+        Add equipment for {{ asset.name }}
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-positive">
+        <h3 class="title">Equipment</h3>
+    </div>
+    <ion-content class="has-subheader padding">
+        <div class="padding-bottom">
+            <a ui-sref="add-equipment({quoteUuid: quoteUuid})" class="button button-positive"><i class="ion-plus"></i> Add equipment</a>
+        </div>
+
+        <div class="list">
+            <div class="item item-text-wrap" ng-repeat="quoteEntry in quoteEntries track by $index">
+                <p>
+                    <strong>Quantity: </strong>{{ quoteEntry.qty }}
+                </p>
+                <p>
+                    <strong>Equipment: </strong>{{ quoteEntry.desc }}
+                </p>
+
+                <div class="row">
+                    <div class="col">
+                        <a class="button button-block button-small button-positive" ui-sref="edit-equipment({quoteEntryUuid: quoteEntry.uuid, quoteUuid: quoteUuid})">Edit</a>
+                    </div>
+                    <div class="col">
+                        <a class="button button-block button-small button-assertive" ng-click="remove(quoteEntry)">Remove</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <a ui-sref="material({quoteUuid: quoteUuid})" class="button button-positive">Previous</a>
+        <a ui-sref="miscellaneous({quoteUuid: quoteUuid})" class="button button-positive pull-right">Next</a>
+    </div>
+</ion-view>

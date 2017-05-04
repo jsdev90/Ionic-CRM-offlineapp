@@ -1,0 +1,15 @@
+Changelog:
+
+Fixed:
+http://jira.friendly-solutions.com/browse/CMA-330
+http://jira.friendly-solutions.com/browse/CMA-400
+http://jira.friendly-solutions.com/browse/CMA-401
+
+New:
+
+- Background GPS tracking (sent on sync)
+- Increase button size on message list, remove mark all as read button
+- Show read date on message list
+- Disable signature button when signature is already there
+- Update work_order_number on WO sync
+- Updated purchase orders

@@ -1,0 +1,115 @@
+<ion-view title="Site history">
+    <ion-content>
+        <div class="list-top">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Type to search by person name or description" ng-model="query">
+            </label>
+        </div>
+
+        <ion-list ng-show="history.length">
+            <ion-item class="item-text-wrap" ng-repeat="item in history | filter:query">
+                <div>
+                    <small>
+                        On {{ item.created_at | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }} by <strong>{{ item.created_by }}</strong>
+                    </small>
+                </div>
+                <div>
+                    <h2><strong>Work Order #{{ item.work_order_number }}</strong></h2>
+                </div>
+                <div ng-switch="item.type">
+                    <div ng-switch-when="link_asset_person_wo">
+                        <h3><strong>{{ item.name }}</strong></h3>
+                        <div>
+                            <strong>Work Performed:</strong>
+                            <p ng-show="item.work_performed">
+                                {{ item.work_performed }}
+                            </p>
+                            <p ng-hide="item.work_performed">
+                                -
+                            </p>
+                        </div>
+                        <div style="margin-top: 8px;">
+                            <div class="row no-padding">
+                                <div class="col">
+                                    <a
+                                    ui-sref="asset-history-photos({linkAssetPersonWoId: item.link_asset_person_wo_id})"
+                                    class="button button-small button-block"
+                                    ng-class="{'button-positive': item.photos_cnt }"
+                                    ng-disabled="item.photos_cnt === 0">
+                                        Photos <span ng-bind="'(' + item.photos_cnt + ')'"></span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a
+                                    ui-sref="asset-history-billing({assetId: item.asset_id, type: 'labor'})"
+                                    class="button button-small button-block"
+                                    ng-class="{'button-positive': item.labor_cnt }"
+                                    ng-disabled="item.labor_cnt === 0">
+                                        Labor <span ng-bind="'(' + item.labor_cnt + ')'"></span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a
+                                    ui-sref="asset-history-billing({assetId: item.asset_id, type: 'material'})"
+                                    class="button button-small button-block"
+                                    ng-class="{'button-positive': item.material_cnt }"
+                                    ng-disabled="item.material_cnt === 0">
+                                        Material <span ng-bind="'(' + item.material_cnt + ')'"></span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a
+                                    ui-sref="asset-history-billing({assetId: item.asset_id, type: 'equipment'})"
+                                    class="button button-small button-block"
+                                    ng-class="{'button-positive': item.equipment_cnt }"
+                                    ng-disabled="item.equipment_cnt === 0">
+                                        Equipment <span ng-bind="'(' + item.equipment_cnt + ')'"></span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a
+                                    ui-sref="asset-history-billing({assetId: item.asset_id, type: 'misc'})"
+                                    class="button button-small button-block"
+                                    ng-class="{'button-positive': item.misc_cnt }"
+                                    ng-disabled="item.misc_cnt === 0">
+                                        Misc <span ng-bind="'(' + item.misc_cnt + ')'"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-switch-when="link_person_wo_photo">
+                        <div style="margin-top: 8px;">
+                            <div class="row no-padding">
+                                <div class="col">
+                                    <a
+                                    ui-sref="site-history-photos({linkPersonWoId: item.link_person_wo_id})"
+                                    class="button button-small button-block"
+                                    ng-class="{'button-positive': item.photos_cnt }"
+                                    ng-disabled="item.photos_cnt === 0">
+                                        Photos
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-switch-when="time_sheet">
+                        {{ item.description }}
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+
+        <div class="card" ng-show="!history.length">
+            <div class="item item-text-wrap">
+                <b>No entries.</b>
+            </div>
+        </div>
+    </ion-content>
+
+    <ion-footer-bar class="bar-dark" ng-show="currentPage < lastPage">
+        <button ng-click="loadData(params.addressId, currentPage + 1)" style="width: 100%" class="button button-positive button-small">Load more</button>
+    </ion-footer-bar>
+
+</ion-view>

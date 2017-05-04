@@ -1,0 +1,40 @@
+<ion-view title="Add Quote Entry #1">
+    <div class="bar bar-subheader bar-positive">
+        <h3 class="title">Quote Summary</h3>
+    </div>
+    <ion-content class="has-subheader padding">
+
+        <div ng-repeat="(stepName, step) in steps">
+            <ng-include src="'views/quotes/total-table.html'"></ng-include>
+        </div>
+
+        <p class="text-center">
+            <strong>Total: ${{ sumStepsCost }}</strong>
+        </p>
+
+        <form class="padding" novalidate name="adjustForm" style="padding-bottom: 100px;">
+            <span ng-init="setForm(adjustForm)"></span>
+            <ion-checkbox ng-model="adjust.priceVerified">Price verfied by supplier?</ion-checkbox>
+            <label class="item item-input" ng-show="adjust.priceVerified"  ng-class="{ 'has-errors' : adjustForm.$submitted && adjustForm.name.$invalid}">
+                <span class="input-label">Contact name</span>
+                <input ng-model="adjust.name" name="name" type="text" placeholder="" ng-required="adjust.priceVerified">
+            </label>
+            <div ng-show="adjust.priceVerified && adjustForm.$submitted && adjustForm.name.$invalid" ng-messages="adjustForm.name.$error" class="error-container">
+                <div ng-messages-include="views/validation-errors.html"></div>
+            </div>
+            <label class="item item-input" ng-show="adjust.priceVerified"  ng-class="{ 'has-errors' : adjustForm.$submitted && adjustForm.contact.$invalid}">
+                <span class="input-label">Contact #</span>
+                <input ng-model="adjust.contact" name="contact" type="text" placeholder="" ng-required="adjust.priceVerified">
+            </label>
+            <div ng-show="adjust.priceVerified && adjustForm.$submitted && adjustForm.contact.$invalid" ng-messages="adjustForm.contact.$error" class="error-container">
+                <div ng-messages-include="views/validation-errors.html"></div>
+            </div>
+        </form>
+
+        <button style="display: none" class="button button-positive" ng-click="addPricingFile()">Add pricing file from supplier</button>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <a ui-sref="miscellaneous({quoteUuid: quoteUuid})" class="button button-positive">Previous</a>
+        <a ng-click="save(adjust)" class="button button-balanced pull-right">Save</a>
+    </div>
+</ion-view>

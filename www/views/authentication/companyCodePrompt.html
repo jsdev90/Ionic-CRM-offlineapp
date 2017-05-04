@@ -1,0 +1,16 @@
+<ion-view title="TCG Mobile" hide-back-button="true">
+    <ion-content class="company-code-prompt">
+        <div class="row row-bottom">
+            <div class="col">
+                <div class="item item-input">
+                    <input ng-model="company.tag" type="text" placeholder="Enter your Company Code">
+                    <i class="icon ion-help-circled" ng-click="showHelp()"></i>
+                </div>
+                <button ng-disabled="!company.tag" class="button button-block button-positive" ng-click="getEndpointConfiguration(company)">Continue</button>
+            </div>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer bar-dark text-center">
+        <small>v{{ appInfo.version }}</small>
+    </div>
+</ion-view>

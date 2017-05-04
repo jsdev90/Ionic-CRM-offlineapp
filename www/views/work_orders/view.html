@@ -1,0 +1,270 @@
+<ion-view cache-view="false">
+    <ion-nav-title>Work Order #{{ data.wo.work_order_number }}</ion-nav-title>
+    <ion-content class="padding">
+        <div class="row no-padding">
+            <div class="col">
+                <h4>#{{ ::data.wo.work_order_number }}</h4>
+
+                <div class="row no-padding">
+                    <div class="col no-padding">
+                        <span><b>ID:</b> {{ ::data.wo.work_order_id }}</span><br>
+                        <span><b>Customer:</b> {{ ::data.wo.client }}</span><br>
+                        <span><b>Store:</b> {{ ::data.wo.store_number }}</span><br><br>
+                        <span ng-show="data.wo.address_id">
+                            <b>Address: </b><br>
+                            {{ ::data.wo.street }}<br>
+                            {{ ::data.wo.city }}, {{ data.wo.state | uppercase }} {{ ::data.wo.zip_code }}
+                            <br /><br />
+                        </span>
+                    </div>
+                    <div class="col" ng-show="data.wo.address_id">
+                        <a class="button button-block button-small button-positive" href="geo:0,0?q={{ getLocationQueryString() }}"><i class="ion-location"></i> Show on map</a>
+                        <a ng-show="data.wo.gps_coords" class="button button-block button-small button-positive" ng-click="navigateTo(data.wo.gps_coords, getLocationQueryString())"><i class="ion-navigate"></i> Get directions</a>
+                    </div>
+                    <div class="col padding" ng-hide="data.wo.address_id">
+                        <span style="color: red">No address assigned to the work order. Call the office.</span>
+                    </div>
+                </div>
+
+                <span ng-show="data.wo.phone"><b>Phone #: </b><a href="tel:{{:: data.wo.phone }}">{{ ::data.wo.phone }}</a></span><br>
+                <span ng-show="data.wo.fax"><b>Fax #: </b><a href="tel:{{:: data.wo.fax }}">{{ ::data.wo.fax }}</a></span>
+
+                <span><b>Received date:</b> {{ data.wo.received_date | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }}</span><br>
+                <span ng-show="data.wo.scheduled_date"><b>Scheduled date:</b>
+                    <span ng-show="data.wo.scheduled_date && data.wo.scheduled_date.length == 10">{{ data.wo.scheduled_date | amUtc | amLocal | amDateFormat: 'MM/DD/YYYY' }}</span>
+                    <span ng-show="data.wo.scheduled_date && data.wo.scheduled_date.length != 10">{{ data.wo.scheduled_date | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }}</span>
+                </span><br>
+                <span><b>Not To Exceed: </b> {{ data.wo.estimated_time }}</span><br />
+                <br>
+
+                <span><b>Status:</b> {{ data.wo.status | workOrderStatus }}</span><br>
+
+                <p ng-show="data.wo.description.length">
+                    <b>Description:</b><br>
+                    {{ ::data.wo.description }}
+                </p>
+
+                <p ng-show="data.wo.instruction.length">
+                    <b>Instruction:</b><br>
+                    <p>{{ ::data.wo.instruction }}
+                </p>
+
+                <div class="row no-padding" style="margin-top: 10px;" ng-show="data.primary_technician && data.wo.assigned_techs_vendors && data.wo.assigned_techs_vendors.length">
+                    <div class="col">
+                        <b>Assigned techs / vendors:</b><br /><br />
+                        <table class="assigned-techs">
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Estimated time
+                                </th>
+                                <th>
+                                    Scheduled date
+                                </th>
+                                <th>
+                                    Status
+                                </th>
+                            </tr>
+                            <tr ng-repeat="assigned in data.wo.assigned_techs_vendors">
+                                <td>
+                                    {{ assigned.name }}
+                                </td>
+                                <td>
+                                    {{ assigned.estimated_time }}
+                                </td>
+                                <td>
+                                    <span ng-show="assigned.scheduled_date && assigned.scheduled_date.length == 10">{{ assigned.scheduled_date | amUtc | amLocal | amDateFormat: 'MM/DD/YYYY' }}</span>
+                                    <span ng-show="assigned.scheduled_date && assigned.scheduled_date.length != 10">{{ assigned.scheduled_date | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }}</span>
+                                </td>
+                                <td>
+                                    {{ assigned.tech_status }}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row no-padding" ng-show="data.wo.purchase_orders && data.wo.purchase_orders.length">
+                    <div class="col">
+                        <b>Purchase orders:</b><br /><br />
+                        <table class="purchase-orders">
+                          <thead>
+                            <tr>
+                              <th>
+                                PO#
+                              </th>
+                              <th>
+                                Status
+                              </th>
+                              <th>
+                                Date
+                              </th>
+                              <th>
+                                ETA
+                              </th>
+                              <th>
+                                Ship to
+                              </th>
+                              <th>
+                                Supplier
+                              </th>
+                              <th>
+                                Other
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr ng-repeat="order in data.wo.purchase_orders">
+                              <td>
+                                {{ order.purchase_order_number }}
+                              </td>
+                              <td>
+                                {{ order.status }}
+                              </td>
+                              <td>
+                                {{ order.date }}
+                              </td>
+                              <td>
+                                {{ order.eta_date }}
+                              </td>
+                              <td>
+                                {{ order.ship_to }}
+                              </td>
+                              <td>
+                                {{ order.supplier }}
+                              </td>
+                              <td>
+                                {{ order.assigned_vendor && order.assigned_vendor.length ? ' Assigned: ' + order.assigned_vendor : '' }}
+                                {{ order.comment && order.comment.length ? '\n' + other.comment : '' }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="padding-bottom row no-padding" ng-hide="shouldDisableConfirmButton(data.wo)">
+            <div class="col">
+                <button class="button button-small button-full button-positive" ng-click="confirm(data.wo)"><i class="ion-android-checkmark-circle"></i> Confirm Work Order</button>
+            </div>
+        </div>
+
+        <div class="padding-bottom row no-padding" ng-show="shouldShowBrowsePhotosButtonOnCompletedWo(data.wo)">
+          <div class="col">
+              <a class="button button-small button-full button-positive" ui-sref="images({objectUuid: data.wo.uuid, objectType: 'link_person_wo', readOnly: 1})"><i class="ion-images"></i> Browse photos</a>
+          </div>
+          <div class="col">
+              <a class="button button-small button-full button-positive" ui-sref="videos({objectUuid: data.wo.uuid, objectType: 'link_person_wo', readOnly: 1})"><i class="ion-ios-videocam"></i> Browse videos</a>
+          </div>
+        </div>
+
+        <div class="wo-buttons" ng-show="shouldShowWorkOrderButtons(data.wo)">
+            <div class="col">
+
+                <div class="padding-bottom row no-padding" ng-show="shouldShowStartedTimerInfo(data.wo, data.lastTimesheet)">
+                  <div class="col" style="text-align: center">
+                    <strong style="color: orange; font-size: 1.1em">Timer already started for WO #{{ data.lastTimesheet.work_order_number }}</strong>
+                  </div>
+                </div>
+
+                <div class="padding-bottom row no-padding" ng-show="shouldShowStartTimerButton()">
+                  <div class="col">
+                    <button ng-click="showStartTimerPopup(data.wo)" class="button button-block button-positive">Start timer</button>
+                  </div>
+                </div>
+
+                <div class="padding-bottom row no-padding" ng-show="shouldShowStopTimerButton(data.wo)">
+                  <div class="col">
+                    <button ng-click="stopTimer(data.lastTimesheet)" class="button button-block button-positive">Stop timer</button>
+                  </div>
+                </div>
+
+                <div class="padding-bottom row no-padding" ng-show="shouldShowCompleteButton(data.wo)">
+                  <div class="col">
+                    <button ng-click="completeWorkOrder(data.wo)" class="button button-block button-positive">Complete WO</button>
+                  </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                    <div class="col">
+                        <a online-only="true" ui-sref="site-history({addressId: data.wo.address_id})" class="button button-small button-full button-positive"><i class="ion-clipboard"></i> Site history</a>
+                    </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                    <div class="col">
+                        <a
+                        ng-click="getSignature()"
+                        ng-style="signature ? {'background-color': 'green'} : {'background-color' : 'red'}"
+                        ng-disabled="signature"
+                        class="button button-small button-full button-positive">
+                            <i class="ion-edit"></i>
+                            {{ signature ? 'Signed ' + (signature.description ? 'by ' + signature.description : '' ) : 'Get a signature' }}
+                        </a>
+                    </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                    <div class="col">
+                        <add-image image-options="{objectUuid: data.wo.uuid, objectId: data.wo.link_person_wo_id, objectType: 'link_person_wo', class: 'button-full button-small'}"></add-image>
+                    </div>
+
+                    <div class="col">
+                        <add-video video-options="{objectUuid: data.wo.uuid, objectId: data.wo.link_person_wo_id, objectType: 'link_person_wo', class: 'button-full button-small'}"></add-video>
+                    </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                    <div class="col">
+                        <a ng-style="unreadCount ? {'background-color' : 'red'} : {}" ui-sref="messages({objectUuid: data.wo.uuid, objectId: data.wo.work_order_id, objectType: 'work_order'})" class="button button-small button-full button-positive"><i class="ion-email"></i> Notes <span ng-show="unreadCount">({{ unreadCount }})</span></a>
+                    </div>
+                    <div class="col">
+                        <a ui-sref="create-message({objectUuid: data.wo.uuid, objectType: 'work_order', objectId: data.wo.work_order_id})" class="button button-small button-full button-positive"><i class="ion-compose"></i> Add note</a>
+                    </div>
+                </div>
+
+                <div class="padding-bottom row no-padding" ng-show="data.wo.assets_enabled">
+                    <div class="col">
+                        <a ng-style="noWorkPerformed ? {'background-color' : 'red'} : {}" class="button button-small button-full button-positive" ui-sref="assets.mode({mode: 'wo', address_uuid: data.wo.address_uuid, work_order_uuid: data.wo.uuid})"><i class="ion-filing"></i> Assets</a>
+                    </div>
+                    <div class="col">
+                        <a class="button button-small button-full button-positive" ui-sref="create-asset({address_uuid: data.wo.address_uuid, work_order_uuid: data.wo.uuid})"><i class="ion-plus"></i> Add new asset</a>
+                    </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                    <div class="col">
+                        <a class="button button-small button-full button-positive" ui-sref="images({objectUuid: data.wo.uuid, objectType: 'link_person_wo'})"><i class="ion-images"></i> Browse photos</a>
+                    </div>
+                    <div class="col">
+                        <a class="button button-small button-full button-positive" ui-sref="videos({objectUuid: data.wo.uuid, objectType: 'link_person_wo'})"><i class="ion-ios-videocam"></i> Browse videos</a>
+                    </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                  <div class="col">
+                      <a class="button button-small button-block button-positive" ui-sref="billing-material({objectUuid: data.wo.uuid, objectType: 'link_person_wo', linkPersonWoId: data.wo.link_person_wo_id})">Material</a>
+                  </div>
+                </div>
+
+                <div class="padding-bottom row no-padding">
+                    <div class="col">
+                        <a
+                        online-only
+                        class="button button-small button-full button-positive"
+                        ui-sref="purchase-orders({link_person_wo_id: data.wo.link_person_wo_id})">
+                            Purchase orders
+                        </a>
+                    </div>
+                    <div class="col" ng-show="surveyStats && surveyStats.total">
+                        <a ng-style="surveyStats && surveyStats.answered != surveyStats.total  ? {'background-color' : 'red'} : { 'background-color' : 'green' }" class="button button-small button-full button-positive" ui-sref="surveys({workOrderUuid: data.wo.uuid})"><i class="ion-ios-videocam"></i> Task Lists <span ng-show="surveyStats">({{ surveyStats.answered + '/' + surveyStats.total }})</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

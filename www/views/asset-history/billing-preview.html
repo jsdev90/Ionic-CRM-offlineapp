@@ -1,0 +1,41 @@
+<ion-view>
+    <ion-nav-title>
+        Bills: {{ params.type }}
+    </ion-nav-title>
+    <ion-content class="padding">
+        <table>
+            <tr>
+                <th>
+                    Work Order #
+                </th>
+                <th>
+                    Bill ID
+                </th>
+                <th>
+                    qty
+                </th>
+                <th>
+                    men count
+                </th>
+                <th>
+                    description
+                </th>
+                <th>
+                    Created at
+                </th>
+                <th>
+                    Created By
+                </th>
+            </tr>
+            <tr ng-repeat="billEntry in assetHistoryBills">
+                <td>{{ billEntry.work_order_number }}</td>
+                <td>{{ billEntry.bill_id }}</td>
+                <td>{{ billEntry.qty }}</td>
+                <td>{{ billEntry.men }}</td>
+                <td>{{ billEntry.description }}</td>
+                <td>{{ billEntry.created_at }}</td>
+                <td>{{ billEntry.created_by }}</td>
+            </tr>
+        </table>
+    </ion-content>
+</ion-view>

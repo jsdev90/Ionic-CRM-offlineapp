@@ -1,0 +1,44 @@
+<ion-view>
+    <ion-nav-title>
+        Notes {{ getHeaderText() }}
+    </ion-nav-title>
+    <ion-tabs class="tabs-positive tabs-icon-left">
+        <ion-tab title="New" icon="ion-compose">
+            <ion-nav-view>
+                <ion-content>
+                    <div class="list-top">
+                        <label class="item item-input">
+                            <i class="icon ion-search placeholder-icon"></i>
+                            <input type="text" placeholder="Type to search" ng-model="query">
+                        </label>
+                    </div>
+                    <div class="list" style="padding-bottom: 40px">
+                        <ng-include src="'views/messages/item.html'" class="item item-text-wrap"
+                        ng-repeat="message in messages | filter:receivedNotCompleted | filter:query | orderBy: '-created_at'"
+                        ></ng-include>
+                    </div>
+                </ion-content>
+                <div class="bar bar-footer bar-dark">
+                    <button class="button button-positive pull-right" ui-sref="create-message({objectUuid: objectUuid, objectType: objectType, objectId: objectId})"><i class="ion-plus"></i> Add note</button>
+                </div>
+            </ion-nav-view>
+        </ion-tab>
+        <ion-tab title="Completed" icon="ion-android-checkmark-circle">
+            <ion-nav-view>
+                <ion-content>
+                    <div class="list-top">
+                        <label class="item item-input">
+                            <i class="icon ion-search placeholder-icon"></i>
+                            <input type="text" placeholder="Type to search" ng-model="query">
+                        </label>
+                    </div>
+
+                    <div class="list" style="padding-bottom: 40px;">
+                        <ng-include src="'views/messages/item.html'" class="item item-text-wrap"
+                        ng-repeat="message in messages | filter:completed | filter:query | orderBy: '-completed_at'"></ng-include>
+                    </div>
+                </ion-content>
+            </ion-nav-view>
+        </ion-tab>
+    </ion-tabs>
+</ion-view>

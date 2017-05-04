@@ -1,0 +1,16 @@
+<ion-view title="Videos">
+
+    <ion-nav-buttons side="right">
+        <add-video ng-hide="readOnly" video-options="{objectUuid: object.uuid, objectId: object.id, objectType:  object.type}"></add-video>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <ion-list ng-show="videos.length">
+            <ion-item class="item" ng-repeat="video in videos">
+                <video width="100%" controls>
+                    <source ng-src="{{ ::video.path }}" type="video/mp4">
+                </video>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

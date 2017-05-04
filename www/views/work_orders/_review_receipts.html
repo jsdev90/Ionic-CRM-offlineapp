@@ -1,0 +1,12 @@
+<ion-modal-view>
+    <ion-header-bar align-title="left" class="bar-positive">
+        <h1 class="title">Review receipts</h1>
+    </ion-header-bar>
+
+    <ion-content class="padding">
+
+        <ion-checkbox collection-repeat="item in receiptCheckboxes" ng-model="item.checked">{{ item.label }}</ion-checkbox>
+
+        <button class="button button-block button-positive" ng-click="confirmReceipts(wo)">Save</button>
+    </ion-content>
+</ion-modal-view>

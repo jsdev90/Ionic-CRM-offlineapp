@@ -1,0 +1,17 @@
+<ion-modal-view>
+    <ion-header-bar align-title="left" class="bar-positive">
+        <h1 class="title">Assign asset to Work Order</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="workOrder in workOrders" ng-click="assign(editedAsset, workOrder)">
+                <h2>#{{ workOrder.work_order_number }}</h2>
+                <p>
+                    {{ workOrder.description }}
+                </p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+</ion-modal-view>

@@ -1,0 +1,33 @@
+<ion-view>
+    <ion-nav-title>
+        Scope of service for {{ asset.model_number }}
+    </ion-nav-title>
+    <div class="bar bar-subheader bar-positive">
+        <h3 class="title">Quoted Work to be performed</h3>
+    </div>
+    <ion-content class="has-subheader padding">
+        <form novalidate>
+            <div class="list">
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Operational status
+                    </div>
+                    <select ng-model="serviceScope.status">
+                        <option ng-repeat="status in operationalStatuses" ng-selected="status == serviceScope.status" value="{{ status }}">{{ status }}%</option>
+                    </select>
+                </label>
+
+                <label class="item item-input">
+                    <textarea ng-model="serviceScope.desc" placeholder="Please enter the scope of service"></textarea>
+                </label>
+
+                <ion-checkbox ng-model="serviceScope.unitDown">Unit down</ion-checkbox>
+
+            </div>
+        </form>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <a ui-sref="quotes({assetUuid: assetUuid, workOrderUuid: workOrderUuid})" class="button button-positive">Previous</a>
+        <a ng-click="next()" class="button button-positive pull-right">Next</a>
+    </div>
+</ion-view>

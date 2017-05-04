@@ -1,0 +1,10 @@
+<ion-view title="Add Asset">
+    <!-- scrollbar is not visible with native scrolling set to true -->
+    <ion-content scrollbar-y="true" overflow-scroll="false">
+        <ng-include src="'views/assets/assetForm.html'"></ng-include>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+        <button ng-click="clear()" class="button button-energized">Clear</button>
+        <button ng-click="submit()" class="button button-positive pull-right">Save</button>
+    </div>
+</ion-view>

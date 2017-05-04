@@ -1,0 +1,69 @@
+<ion-view>
+    <ion-nav-title>
+        Asset history
+    </ion-nav-title>
+    <ion-content class="padding">
+        <h1 ng-show="loading">Loading asset history...</h1>
+        <div class="list">
+            <div ng-repeat="historyEntry in assetHistory" class="item item-text-wrap">
+                <p>
+                    <small>On {{ historyEntry.created_at }} by <strong>{{ historyEntry.created_by }}</strong></small>
+                </p>
+                <div ng-show="historyEntry.work_performed">
+                    <p>
+                        {{ historyEntry.work_performed }}
+                    </p>
+                </div>
+                <div style="margin-top: 8px;">
+                    <div class="row no-padding">
+                        <div class="col">
+                            <a
+                            ui-sref="asset-history-photos({linkAssetPersonWoId: historyEntry.link_asset_person_wo_id})"
+                            class="button button-small button-block"
+                            ng-class="{'button-positive': historyEntry.photos_cnt }"
+                            ng-disabled="historyEntry.photos_cnt === 0">
+                                Photos <span ng-bind="'(' + historyEntry.photos_cnt + ')'"></span>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a
+                            ui-sref="asset-history-billing({assetId: params.assetId, type: 'labor'})"
+                            class="button button-small button-block"
+                            ng-class="{'button-positive': historyEntry.labor_cnt }"
+                            ng-disabled="historyEntry.labor_cnt === 0">
+                                Labor <span ng-bind="'(' + historyEntry.labor_cnt + ')'"></span>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a
+                            ui-sref="asset-history-billing({assetId: params.assetId, type: 'material'})"
+                            class="button button-small button-block"
+                            ng-class="{'button-positive': historyEntry.material_cnt }"
+                            ng-disabled="historyEntry.material_cnt === 0">
+                                Material <span ng-bind="'(' + historyEntry.material_cnt + ')'"></span>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a
+                            ui-sref="asset-history-billing({assetId: params.assetId, type: 'equipment'})"
+                            class="button button-small button-block"
+                            ng-class="{'button-positive': historyEntry.equipment_cnt }"
+                            ng-disabled="historyEntry.equipment_cnt === 0">
+                                Equipment <span ng-bind="'(' + historyEntry.equipment_cnt + ')'"></span>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a
+                            ui-sref="asset-history-billing({assetId: params.assetId, type: 'misc'})"
+                            class="button button-small button-block"
+                            ng-class="{'button-positive': historyEntry.misc_cnt }"
+                            ng-disabled="historyEntry.misc_cnt === 0">
+                                Misc <span ng-bind="'(' + historyEntry.misc_cnt + ')'"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

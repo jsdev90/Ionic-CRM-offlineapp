@@ -1,0 +1,17 @@
+<ion-view title="Work Orders">
+    <ion-content>
+        <div class="list-top">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Type to search" ng-model="query">
+            </label>
+
+            <div class="button-bar">
+                <a class="button" ng-class="tabClass('pending')" ng-click="showState('pending')"><i class="ion-alert"></i> <span ng-bind=" workOrderSummary ? '(' + workOrderSummary.totalPending + ')' : ''"></span> Pending</a>
+                <a class="button" ng-class="tabClass('open')" ng-click="showState('open')"><i class="ion-gear-b"></i> <span ng-bind="workOrderSummary ? '(' + workOrderSummary.totalOpen + ')' : ''"></span> Open</a>
+                <a class="button" ng-class="tabClass('completed')" ng-click="showState('completed')"><i class="ion-checkmark"></i> <span ng-bind="workOrderSummary ? '(' + workOrderSummary.totalCompleted + ')' : ''"></span> Completed</a>
+            </div>
+        </div>
+        <ui-view></ui-view>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,86 @@
+<div class="row no-padding">
+    <div class="col col-20" ng-show="mode == 'wo'">
+        <img style="width: 100%" ui-sref="images({objectUuid: asset.work_order_asset_uuid, objectType: 'link_asset_person_wo'})" ng-show="asset.photo_path" ng-src="{{ asset.photo_path }}">
+    </div>
+    <div class="col col-80">
+        <p>
+            Name: {{ ::asset.name }}
+        </p>
+        <p>Model: {{ ::asset.model_number }}</p>
+        <p>
+          <strong>Status: {{ asset.asset_status || '-' }}</strong>
+        </p>
+    </div>
+</div>
+
+<div class="row no-padding" ng-show="mode == 'wo'">
+    <div class="col">
+        <p>
+            <strong>Work requested:</strong>
+        </p>
+        <p>
+            {{ asset.work_requested }}
+        </p>
+    </div>
+</div>
+
+<div class="row no-padding" ng-show="mode == 'wo'">
+  <div class="col">
+    <add-image image-options="{objectUuid: asset.work_order_asset_uuid, objectType: 'link_asset_person_wo', class: 'button-full button-small'}"></add-image>
+  </div>
+</div>
+
+<div class="row no-padding" ng-show="mode == 'wo'">
+    <div class="col">
+        <button ui-sref="images({objectUuid: asset.work_order_asset_uuid, objectType: 'link_asset_person_wo', readOnly: readOnly})" class="button button-block button-small button-calm"><i class="ion-images"></i> Photos ({{ asset.photo_count }})</button>
+    </div>
+    <div class="col">
+        <button ui-sref="videos({objectUuid: asset.work_order_asset_uuid, objectType: 'link_asset_person_wo', readOnly: readOnly})" class="button button-block button-small button-calm"><i class="ion-videocamera"></i> Videos ({{ asset.video_count }})</button>
+    </div>
+</div>
+<div class="row no-padding">
+    <div class="col" ng-show="mode == 'wo'">
+        <a ui-sref="asset-work-performed({asset_uuid: asset.uuid, workOrderUuid: asset.work_order_uuid})" class="button button-small button-full" ng-class="{'button-balanced': asset.work_performed.length, 'button-pink': !asset.work_performed.length}">Work Performed</a>
+    </div>
+    <div class="col">
+        <a ui-sref="asset-details({asset_uuid: asset.uuid, readOnly: readOnly})" class="button button-small button-full button-positive">Metrics</a>
+    </div>
+    <div class="col">
+        <a ui-sref="asset-details({asset_uuid: asset.uuid, readOnly: readOnly})" class="button button-small button-full button-positive">Info</a>
+    </div>
+</div>
+
+<div class="row no-padding">
+    <div class="col" ng-show="mode == 'wo'">
+        <a ui-sref="quotes({assetUuid: asset.uuid, workOrderUuid: asset.work_order_uuid})" class="button button-small button-full button-positive"> Quotes ({{ asset.quote_count }})</a>
+    </div>
+    <div class="col" ng-show="mode == 'wo'">
+        <button ui-sref="scope-of-service({assetUuid: asset.uuid, workOrderUuid: asset.work_order_uuid, linkPersonWoId: asset.link_person_wo_id})" class="button button-small button-block button-positive"><i class="ion-plus"></i> Add Quote</button>
+    </div>
+    <div class="col" ng-hide="asset.hide_assign || asset.work_order_uuid == work_order_uuid">
+        <button class="button button-small button-full button-positive" ng-click="assign(asset, {uuid: work_order_uuid})">
+            Assign to current Work Order
+        </button>
+    </div>
+</div>
+
+<div class="row no-padding" ng-show="mode == 'wo'">
+    <div class="col">
+        <a class="button button-small button-block button-positive" ui-sref="billing-labor({objectUuid: asset.uuid, linkPersonWoId: asset.link_person_wo_id})">Labor ({{ asset.entriesCount.labor }})</a>
+    </div>
+    <div class="col">
+        <a class="button button-small button-block button-positive" ui-sref="billing-material({objectUuid: asset.uuid, linkPersonWoId: asset.link_person_wo_id})">Material  ({{ asset.entriesCount.material }})</a>
+    </div>
+    <div class="col">
+        <a class="button button-small button-block button-positive" ui-sref="billing-equipment({objectUuid: asset.uuid, linkPersonWoId: asset.link_person_wo_id})">Equipment  ({{ asset.entriesCount.equipment }})</a>
+    </div>
+    <div class="col">
+        <a class="button button-small button-block button-positive" ui-sref="billing-misc({objectUuid: asset.uuid, linkPersonWoId: asset.link_person_wo_id})">Misc  ({{ asset.entriesCount.miscellaneous }})</a>
+    </div>
+</div>
+
+<div class="row no-padding" ng-show="mode == 'wo' && asset.asset_id">
+    <div class="col">
+        <a online-only ui-sref="asset-history({assetId: asset.asset_id})" class="button button-small button-block button-positive">Asset history</a>
+    </div>
+</div>

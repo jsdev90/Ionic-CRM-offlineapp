@@ -1,0 +1,44 @@
+<ion-view>
+
+    <ion-nav-title>Asset: {{ ::asset.name }}</ion-nav-title>
+
+    <ion-content class="padding">
+
+        <div class="row" ng-show="asset.photo_path !== null">
+            <div class="col col-100">
+                <a ui-sref="images({objectUuid: asset.work_order_asset_uuid, objectType: 'link_asset_person_wo', readOnly: readOnly})" style="display: block; width: 100%;">
+                    <img image-lazy-src="{{ asset.photo_path }}" style="width: 100%; height: auto"
+                         image-lazy-loader="android">
+                </a>
+            </div>
+        </div>
+
+        <div class="row" ng-show="asset.latitude != 0">
+            <div class="col">
+                <a href="geo:0,0?q={{ asset.latitude }},{{ asset.longitude }}%26z=2%26t=k" class="button button-small button-full button-balanced"><i class="ion-android-pin"></i> Show on map</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-100">
+                <div class="row" ng-repeat="(key, value) in asset"
+                     ng-show="['uuid', 'sync', 'id', 'address_uuid', 'gps_coords', 'filename', 'photo_path'].indexOf(key) === -1">
+                    <div class="col col-30">
+                        <strong style="text-transform: capitalize">{{ ::key | stripUnderscores }}: </strong>
+                    </div>
+                    <div class="col col-70" style="text-transform: capitalize">
+                        <span ng-show="key == 'created_at'">
+                            {{ value | amUtc | amLocal | amDateFormat: DEFAULT_DISPLAY_DATE_FORMAT }}
+                        </span>
+                        <span ng-show="key == 'under_contract'">
+                            {{ value | yesNo }}
+                        </span>
+                        <span ng-show="(key != 'under_contract' && key != 'created_at' ) || value == 'undefined'">
+                            {{ value }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

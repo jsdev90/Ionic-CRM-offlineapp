@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+
+    <title></title>
+
+    <link href="dist/all.min.css" rel="stylesheet">
+
+    <!-- jquery -->
+    <script src="lib/jquery/dist/jquery.js"></script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/angular-messages/angular-messages.min.js"></script>
+    <script src="lib/moment/moment.js"></script>
+    <script src="lib/moment-duration-format/lib/moment-duration-format.js"></script>
+    <script src="lib/angular-moment/angular-moment.js"></script>
+    <script src="lib/ionic-image-lazy-load/ionic-image-lazy-load.js"></script>
+    <script src="lib/angular-nl2br/angular-nl2br.js"></script>
+    <script src="lib/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="dist/all.js"></script>
+
+  </head>
+  <body ng-app="app" ng-controller="AppCtrl">
+    <style>
+      #splash{
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        left: 0px;
+        top: 0px;
+        background-color: #74cded;
+        background-image: url(img/splash.png);
+        background-repeat: no-repeat;
+        background-position: center 35%;
+        background-size: 60% auto;
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .spinner-wrapper{
+        width: 100%;
+        text-align: center;
+        padding-top: 40%;
+      }
+
+      .splash-spinner{
+        color: white;
+        font-size: 3em;
+        -webkit-animation: rotating 2s linear infinite;
+      }
+
+      .spinner-text{
+        display: inline-block;
+        margin-top: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 1.4em;
+      }
+
+      @-webkit-keyframes rotating {
+          from{
+              -webkit-transform: rotate(0deg);
+          }
+          to{
+              -webkit-transform: rotate(360deg);
+          }
+      }
+    </style>
+    <div id="splash">
+      <div class="spinner-wrapper">
+        <span class="ion-load-c splash-spinner"></span><br />
+        <span class="spinner-text">Loading...</span>
+      </div>
+    </div>
+   <ion-side-menus>
+        <!-- Left menu -->
+        <ion-side-menu side="left" ng-controller="MenuCtrl">
+            <ng-include src="'views/menu-left.html'"></ng-include>
+        </ion-side-menu>
+
+        <ion-side-menu-content drag-content="false">
+            <div class="menu-overlay"></div>
+            <ion-nav-bar class="bar-dark">
+                <ion-nav-buttons side="left">
+                    <button ng-hide="shouldHideHamburger()" ng-click="toggleLeft()" class="button button-light button-outline">Menu</button>
+                </ion-nav-buttons>
+                <ion-nav-buttons side="right">
+                    <button
+                        ng-hide="shouldHideHamburger()"
+                        class="button button-icon icon ion-email"
+                        ui-sref="messages({forceAllMessages: true})" ui-sref-opts="{reload: true}">
+                        <small
+                            ng-class="messageIndicator.unreadCount ? 'bounce' : ''"
+                            ng-show="messageIndicator.unreadCount"
+                            ng-bind="messageIndicator.unreadCount"
+                        >
+                        </small>
+                    </button>
+                    <button ng-hide="shouldHideHamburger()" class="button button-icon icon ion-refresh" ng-click="sync()"></button>
+                </ion-nav-buttons>
+            </ion-nav-bar>
+            <ion-nav-view></ion-nav-view>
+        </ion-side-menu-content>
+
+    </ion-side-menus>
+
+    <script>
+      try {
+        var _rollbarConfig = {
+          rollbarJsUrl: 'rollbar.min.js',
+          accessToken: "0aa0d4d217ab405b8a69f7232c669d0a",
+          captureUncaught: true,
+          payload: {
+              environment: "production"
+          }
+        };
+        !function(r){function e(t){if(o[t])return o[t].exports;var n=o[t]={exports:{},id:t,loaded:!1};return r[t].call(n.exports,n,n.exports,e),n.loaded=!0,n.exports}var o={};return e.m=r,e.c=o,e.p="",e(0)}([function(r,e,o){"use strict";var t=o(1).Rollbar,n=o(2);_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||"https://d37gvrvc0wt4s1.cloudfront.net/js/v1.9/rollbar.min.js";var a=t.init(window,_rollbarConfig),i=n(a,_rollbarConfig);a.loadFull(window,document,!_rollbarConfig.async,_rollbarConfig,i)},function(r,e){"use strict";function o(r){return function(){try{return r.apply(this,arguments)}catch(e){try{console.error("[Rollbar]: Internal error",e)}catch(o){}}}}function t(r,e,o){window._rollbarWrappedError&&(o[4]||(o[4]=window._rollbarWrappedError),o[5]||(o[5]=window._rollbarWrappedError._rollbarContext),window._rollbarWrappedError=null),r.uncaughtError.apply(r,o),e&&e.apply(window,o)}function n(r){var e=function(){var e=Array.prototype.slice.call(arguments,0);t(r,r._rollbarOldOnError,e)};return e.belongsToShim=!0,e}function a(r){this.shimId=++c,this.notifier=null,this.parentShim=r,this._rollbarOldOnError=null}function i(r){var e=a;return o(function(){if(this.notifier)return this.notifier[r].apply(this.notifier,arguments);var o=this,t="scope"===r;t&&(o=new e(this));var n=Array.prototype.slice.call(arguments,0),a={shim:o,method:r,args:n,ts:new Date};return window._rollbarShimQueue.push(a),t?o:void 0})}function l(r,e){if(e.hasOwnProperty&&e.hasOwnProperty("addEventListener")){var o=e.addEventListener;e.addEventListener=function(e,t,n){o.call(this,e,r.wrap(t),n)};var t=e.removeEventListener;e.removeEventListener=function(r,e,o){t.call(this,r,e&&e._wrapped?e._wrapped:e,o)}}}var c=0;a.init=function(r,e){var t=e.globalAlias||"Rollbar";if("object"==typeof r[t])return r[t];r._rollbarShimQueue=[],r._rollbarWrappedError=null,e=e||{};var i=new a;return o(function(){if(i.configure(e),e.captureUncaught){i._rollbarOldOnError=r.onerror,r.onerror=n(i);var o,a,c="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(o=0;o<c.length;++o)a=c[o],r[a]&&r[a].prototype&&l(i,r[a].prototype)}return e.captureUnhandledRejections&&(i._unhandledRejectionHandler=function(r){var e=r.reason,o=r.promise,t=r.detail;!e&&t&&(e=t.reason,o=t.promise),i.unhandledRejection(e,o)},r.addEventListener("unhandledrejection",i._unhandledRejectionHandler)),r[t]=i,i})()},a.prototype.loadFull=function(r,e,t,n,a){var i=function(){var e;if(void 0===r._rollbarPayloadQueue){var o,t,n,i;for(e=new Error("rollbar.js did not load");o=r._rollbarShimQueue.shift();)for(n=o.args,i=0;i<n.length;++i)if(t=n[i],"function"==typeof t){t(e);break}}"function"==typeof a&&a(e)},l=!1,c=e.createElement("script"),d=e.getElementsByTagName("script")[0],p=d.parentNode;c.crossOrigin="",c.src=n.rollbarJsUrl,c.async=!t,c.onload=c.onreadystatechange=o(function(){if(!(l||this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState)){c.onload=c.onreadystatechange=null;try{p.removeChild(c)}catch(r){}l=!0,i()}}),p.insertBefore(c,d)},a.prototype.wrap=function(r,e){try{var o;if(o="function"==typeof e?e:function(){return e||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._wrapped){r._wrapped=function(){try{return r.apply(this,arguments)}catch(e){throw e._rollbarContext=o()||{},e._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=e,e}},r._wrapped._isWrap=!0;for(var t in r)r.hasOwnProperty(t)&&(r._wrapped[t]=r[t])}return r._wrapped}catch(n){return r}};for(var d="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError,unhandledRejection".split(","),p=0;p<d.length;++p)a.prototype[d[p]]=i(d[p]);r.exports={Rollbar:a,_rollbarWindowOnError:t}},function(r,e){"use strict";r.exports=function(r,e){return function(o){if(!o&&!window._rollbarInitialized){var t=window.RollbarNotifier,n=e||{},a=n.globalAlias||"Rollbar",i=window.Rollbar.init(n,r);i._processShimQueue(window._rollbarShimQueue||[]),window[a]=i,window._rollbarInitialized=!0,t.processPayloads()}}}}]);
+      } catch (e) {
+        console.warn('[rollbar]');
+        console.warn(e);
+      }
+    </script>
+  </body>
+</html>
